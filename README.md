@@ -17,8 +17,8 @@ I had setup a quest using BetonQuest and LibSequence, and for one part of the qu
 If this plugin is not what your are searching for, please have a look at:
 * BungeeTeleportManager https://www.spigotmc.org/resources/bungeeteleportmanager.80677
 * Warps, Portals and more https://www.spigotmc.org/resources/warps-portals-and-more-warp-teleport-system-1-8-1-16.29595
-* BetonQuest https://www.spigotmc.org/resources/betonquest.2117/
-* LibSequence https://www.spigotmc.org/resources/libsequence.90664/
+* BetonQuest https://www.spigotmc.org/resources/betonquest.2117
+* LibSequence https://www.spigotmc.org/resources/libsequence.90664
 
 # Documentation
 Please see the Github Wiki.
