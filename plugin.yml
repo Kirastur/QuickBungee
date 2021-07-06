@@ -1,0 +1,19 @@
+name: QuickBungee
+version: 1.0
+description: Call Bungeecord's "send" from Spigot Server
+authors: [Kirastur]
+
+api-version: 1.16
+load: POSTWORLD
+main: de.polarwolf.quickbungee.main.Main
+
+commands:
+    quickbungee:
+        description: Force a player to bungeejump to another server
+        permission: quickbungee.admin
+        usage: "Query a list of valid subcommands by using: /quickbungee help"
+
+permissions:
+    quickbungee.admin:
+        description: Can use the quickbungee command to send players to other servers
+        default: OP
