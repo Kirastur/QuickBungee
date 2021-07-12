@@ -4,6 +4,7 @@ public enum Message {
 
 	OK ("OK"),
 	ERROR ("ERROR"),
+	JAVA_EXCEPTOPN ("Java Exception Error"),
 	HELP ("Valid commands are: "),
 	NOT_A_PLAYER ("This command can only be run by a player!"),
 	SERVER_LIST ("Configured servers are: "),

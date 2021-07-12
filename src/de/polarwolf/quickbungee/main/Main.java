@@ -55,8 +55,14 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		QuickBungeeProvider.setAPI(null);
-		bungeeChannel.unregisterChannel();
-		playerJoinListener.unregisterListener();
+
+		if (bungeeChannel != null) {
+			bungeeChannel.unregisterChannel();
+		}
+		
+		if (playerJoinListener != null) {
+			playerJoinListener.unregisterListener();
+		}
 	}
 	
 }

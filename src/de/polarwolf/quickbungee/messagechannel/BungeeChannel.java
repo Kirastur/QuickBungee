@@ -52,26 +52,6 @@ public class BungeeChannel implements PluginMessageListener {
 	}
 
 
-	@Override
-	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-		if (!channel.equals(BUNGEECORD)) {
-			return;
-		}
-		ByteArrayDataInput in = ByteStreams.newDataInput(message);
-		String subchannel = in.readUTF();
-		if (subchannel.equals(GETSERVER)) {
-			serverName = in.readUTF();
-			plugin.getLogger().info(Message.SERVERNAME_REFRESHED.toString() + serverName);
-		}
-		if (subchannel.equals(GETSERVERS)) {
-			String[] serverArray = in.readUTF().split(", ");
-			serverList.clear();
-			serverList.addAll(Arrays.asList(serverArray));
-			plugin.getLogger().info(Message.SERVERLIST_REFRESHED.toString());
-		}
-	}
-
-
 	protected void requestServerName(Player player) {
 		ByteArrayDataOutput out = ByteStreams.newDataOutput();
 		out.writeUTF(GETSERVER);
@@ -100,5 +80,35 @@ public class BungeeChannel implements PluginMessageListener {
 		requestServerName(player);
 		requestServerList(player);
 	}
+
+	
+	protected void handlePluginMessageReceived(String channel, byte[] message) {
+		if (!channel.equals(BUNGEECORD)) {
+			return;
+		}
+		ByteArrayDataInput in = ByteStreams.newDataInput(message);
+		String subchannel = in.readUTF();
+		if (subchannel.equals(GETSERVER)) {
+			serverName = in.readUTF();
+			plugin.getLogger().info(Message.SERVERNAME_REFRESHED.toString() + serverName);
+		}
+		if (subchannel.equals(GETSERVERS)) {
+			String[] serverArray = in.readUTF().split(", ");
+			serverList.clear();
+			serverList.addAll(Arrays.asList(serverArray));
+			plugin.getLogger().info(Message.SERVERLIST_REFRESHED.toString());
+		}
+	}
+
+
+	@Override
+	public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+		try {
+			handlePluginMessageReceived(channel, message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }

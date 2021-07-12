@@ -1,7 +1,8 @@
 name: QuickBungee
-version: 1.0
-description: Call Bungeecord's "send" from Spigot Server
+version: 1.1
+description: Call Bungeecord's "send" as Spigot Server Command
 authors: [Kirastur]
+website: https://www.spigotmc.org/resources/quickbungee.93989
 
 api-version: 1.16
 load: POSTWORLD

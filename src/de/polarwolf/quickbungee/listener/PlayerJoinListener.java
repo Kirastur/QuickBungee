@@ -15,6 +15,7 @@ public class PlayerJoinListener implements Listener {
 	
 	protected final Plugin plugin;
 	protected final BungeeChannel bungeeChannel;
+	protected PlayerJoinScheduler playerJoinScheduler = null;
 	
 	public PlayerJoinListener(Plugin plugin, BungeeChannel bungeeChannel) {
 		this.plugin = plugin;
@@ -29,18 +30,58 @@ public class PlayerJoinListener implements Listener {
 	
 	
 	public void unregisterListener() {
+		stopScheduler();
 		HandlerList.unregisterAll(this);
 	}
-		
-
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPlayerJoinEvent(PlayerJoinEvent event) {
+	
+	protected void handlePlayerJoin(PlayerJoinEvent event) {
 		if (bungeeChannel.getServerList().isEmpty() || bungeeChannel.getServerName().isEmpty()) {
 			plugin.getLogger().info(Message.PREPARING_REFRESH.toString());
 			Player player = event.getPlayer();
-			PlayerJoinScheduler myScheduler = new PlayerJoinScheduler(bungeeChannel, player);
-			myScheduler.runTaskTimer(plugin, 20, 20);
+			startScheduler(player);
 		}
-	}	
+	}
+	
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPlayerJoinEvent(PlayerJoinEvent event) {
+		try {
+			handlePlayerJoin(event);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+		
+	
+	
+	// Called by the Scheduler
+	protected boolean isRefeshNeeded() {
+		return (bungeeChannel.getServerName().isEmpty() || bungeeChannel.getServerList().isEmpty()); 
+	}
+	
+	// Called by the Scheduler
+	protected void doRequestRefresh(Player player) {
+		bungeeChannel.requestRefresh(player);
+	}
+	
+
+	protected void startScheduler(Player player) {
+		if (playerJoinScheduler != null) {
+			return;
+		}
+		playerJoinScheduler = new PlayerJoinScheduler(this, player);
+		playerJoinScheduler.runTaskTimer(plugin, 20, 20);
+		
+	}
+	
+
+	protected void stopScheduler() {
+		if (playerJoinScheduler == null) {
+			return;
+		}
+		playerJoinScheduler.cancel();
+		playerJoinScheduler = null;
+		
+	}
 
 }

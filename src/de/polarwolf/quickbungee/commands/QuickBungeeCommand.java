@@ -136,8 +136,7 @@ public class QuickBungeeCommand implements CommandExecutor {
 	}
 	
 	
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	protected boolean handleCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length==0) {
 			return false;
 		}
@@ -183,7 +182,20 @@ public class QuickBungeeCommand implements CommandExecutor {
 		}
 		
 		dispatchCommand (sender, subCommand, myPlayer, myServerName);
-		
+					
 		return true; 
 	}
+	
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		try {
+			return handleCommand(sender, cmd, label, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+			sender.sendMessage(Message.JAVA_EXCEPTOPN.toString());
+		}		
+		return true; 
+	}
+	
 }
